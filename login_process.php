@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($email == $email_db && $password == $password_db) {
                 $_SESSION['email'] = $email;
-                header("Location: ../Pages/homepage.php");
+                header("Location: ../Weather/Pages/homepage.php");
                 exit();
             } else {
                 echo "Incorrect Password";
