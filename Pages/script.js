@@ -1,7 +1,6 @@
 function getWeather() {
     const city = document.getElementById('cityInput').value;
-    const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; 
-// Replace with your actual API key from OpenWeatherMap
+    const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key from OpenWeatherMap
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
@@ -14,7 +13,7 @@ function getWeather() {
         .then(data => {
             console.log(data); // Optional: Log the JSON response to see all the details
 
-            // Construct the HTML to display all weather information
+            // Construct the HTML to display current weather information
             let weatherInfo = `
                 <h2>${data.name}, ${data.sys.country}</h2>
                 <p><strong>Temperature:</strong> ${data.main.temp} °C</p>
@@ -34,9 +33,47 @@ function getWeather() {
             `;
             
             document.getElementById('weatherInfo').innerHTML = weatherInfo;
+
+            // Call function to fetch and display hourly forecast
+            getHourlyForecast(city);
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
             document.getElementById('weatherInfo').innerHTML = `<p>Error fetching weather data</p>`;
+        });
+}
+
+function getHourlyForecast(city) {
+    const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key from OpenWeatherMap
+    const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data); // Optional: Log the JSON response to see all the details
+
+            // Construct HTML to display hourly forecast information
+            let forecastInfo = '<h2>Hourly Forecast</h2>';
+            data.list.forEach(item => {
+                forecastInfo += `
+                    <div class="forecast-item">
+                        <p>Date and Time: ${item.dt_txt}</p>
+                        <p>Temperature: ${item.main.temp} °C</p>
+                        <p>Weather: ${item.weather[0].description}</p>
+                        <p>Wind Speed: ${item.wind.speed} m/s</p>
+                    </div>
+                `;
+            });
+
+            document.getElementById('hourlyForecast').innerHTML = forecastInfo;
+        })
+        .catch(error => {
+            console.error('Error fetching hourly forecast data:', error);
+            document.getElementById('hourlyForecast').innerHTML = `<p>Error fetching hourly forecast data</p>`;
         });
 }
