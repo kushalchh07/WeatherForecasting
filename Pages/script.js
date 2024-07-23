@@ -43,8 +43,19 @@ function getWeather() {
         });
 }
 
-function getHourlyForecast(city) {
-    const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key from OpenWeatherMap
+document.getElementById('getForecastButton').addEventListener('click', () => {
+    const city = document.getElementById('cityInput').value;
+    if (city) {
+        getHourlyForecast(city);
+    } else {
+        alert('Please enter a city name.');
+    }
+});
+
+function getHourlyForecast() {
+    const city = document.getElementById('cityinput').value;
+
+    const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
@@ -57,15 +68,29 @@ function getHourlyForecast(city) {
         .then(data => {
             console.log(data); // Optional: Log the JSON response to see all the details
 
-            // Construct HTML to display hourly forecast information
-            let forecastInfo = '<h2>Hourly Forecast</h2>';
-            data.list.forEach(item => {
+            // Construct HTML to display hourly forecast information for the next 12 hours
+            let forecastInfo = '<h2>Hourly Forecast (Next 12 Hours)</h2>';
+            data.list.slice(0, 12).forEach(item => {
+                const date = new Date(item.dt * 1000).toLocaleString(); // Convert timestamp to local date and time
+                const weather = item.weather[0];
+                const iconUrl = `https://openweathermap.org/img/wn/${weather.icon}.png`;
+                
                 forecastInfo += `
                     <div class="forecast-item">
-                        <p>Date and Time: ${item.dt_txt}</p>
-                        <p>Temperature: ${item.main.temp} °C</p>
-                        <p>Weather: ${item.weather[0].description}</p>
-                        <p>Wind Speed: ${item.wind.speed} m/s</p>
+                        <p><strong>Date and Time:</strong> ${date}</p>
+                        <p><strong>Temperature:</strong> ${item.main.temp} °C</p>
+                        <p><strong>Feels Like:</strong> ${item.main.feels_like} °C</p>
+                        <p><strong>Min Temperature:</strong> ${item.main.temp_min} °C</p>
+                        <p><strong>Max Temperature:</strong> ${item.main.temp_max} °C</p>
+                        <p><strong>Pressure:</strong> ${item.main.pressure} hPa</p>
+                        <p><strong>Humidity:</strong> ${item.main.humidity} %</p>
+                        <p><strong>Visibility:</strong> ${item.visibility / 1000} km</p>
+                        <p><strong>Wind Speed:</strong> ${item.wind.speed} m/s</p>
+                        <p><strong>Wind Direction:</strong> ${item.wind.deg}°</p>
+                        <p><strong>Cloudiness:</strong> ${item.clouds.all} %</p>
+                        <p><strong>Rain:</strong> ${item.rain ? item.rain['3h'] : 'N/A'} mm</p>
+                        <p><strong>Weather:</strong> ${weather.description}</p>
+                        <img src="${iconUrl}" alt="Weather Icon">
                     </div>
                 `;
             });
@@ -77,3 +102,51 @@ function getHourlyForecast(city) {
             document.getElementById('hourlyForecast').innerHTML = `<p>Error fetching hourly forecast data</p>`;
         });
 }
+
+
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     const getForecastButton = document.getElementById('getForecastButton');
+//     getForecastButton.addEventListener('click', function () {
+//         const city = document.getElementById('cityInput').value;
+//         if (city) {
+//             getHourlyForecast(city);
+//         } else {
+//             alert('Please enter a city name.');
+//         }
+//     });
+
+//     function getHourlyForecast(city) {
+//         const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key
+//         const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+//         fetch(apiUrl)
+//             .then(response => {
+//                 if (!response.ok) {
+//                     throw new Error('Network response was not ok');
+//                 }
+//                 return response.json();
+//             })
+//             .then(data => {
+//                 // Construct HTML to display hourly forecast information for the next 12 hours
+//                 let forecastInfo = '<h2>Hourly Forecast (Next 12 Hours)</h2>';
+//                 data.list.slice(0, 12).forEach(item => {
+//                     forecastInfo += `
+//                         <div class="forecast-item">
+//                             <p><strong>Date and Time:</strong> ${item.dt_txt}</p>
+//                             <p><strong>Temperature:</strong> ${item.main.temp} °C</p>
+//                             <p><strong>Weather:</strong> ${item.weather[0].description}</p>
+//                             <p><strong>Wind Speed:</strong> ${item.wind.speed} m/s</p>
+//                             <img src="https://openweathermap.org/img/wn/${item.weather[0].icon}.png" alt="Weather Icon">
+//                         </div>
+//                     `;
+//                 });
+
+//                 document.getElementById('hourlyForecast').innerHTML = forecastInfo;
+//             })
+//             .catch(error => {
+//                 console.error('Error fetching hourly forecast data:', error);
+//                 document.getElementById('hourlyForecast').innerHTML = `<p>Error fetching hourly forecast data</p>`;
+//             });
+//     }
+// });

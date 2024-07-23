@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast</title>
-    <link rel="stylesheet" href="style1.css">
-    <style>
+    <title>Hourly Forecast</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
@@ -47,7 +48,6 @@
             margin-bottom: 20px;
         }
     </style>
-</head>
 <body>
     <div class="navbar">
         <a href="homepage.php">Home</a>
@@ -55,20 +55,15 @@
         <a href="logout.php">Logout</a>
     </div>
     <div class="container">
-        <h1>Weather Forecast</h1>
+        <h1>Hourly Forecast</h1>
         <div class="search-box">
-            <input type="text" id="cityInput" placeholder="Enter city name">
-            <button onclick="getWeather()">Get Weather</button>
+            <input type="text" id="cityinput" placeholder="Enter city name">
+            <button id="getForecastButton" onclick="getHourlyForecast()">Get Forecast</button>
         </div>
-        <div id="weatherInfo" class="weather-info">
-            <!-- Weather information will be displayed here -->
+        <div id="hourlyForecast" class="hourly-forecast">
+            <!-- Hourly forecast information will be displayed here -->
         </div>
-        <!-- <div id="hourlyForecast" class="hourly-forecast">
-            Hourly forecast information will be displayed here
-        </div> -->
     </div>
-    
     <script src="script.js"></script>
 </body>
 </html>
-
