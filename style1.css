@@ -8,7 +8,7 @@ background-repeat: no-repeat;
   flex-direction: column;
   align-items: center;
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .navbar {
@@ -63,7 +63,6 @@ h1 {
 input[type="text"] {
   flex: 1; /* Flexible width */
   padding: 12px;
-  margin-right: 10px;
   border: 1px solid #ddd;
   border-radius: 6px 0 0 6px;
   outline: none;
@@ -100,7 +99,11 @@ button:hover {
 }
 
 .hourly-forecast {
-  margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 20px;
+    width: 100%;
 }
 
 .forecast-item {
@@ -175,7 +178,7 @@ button:hover {
 }
 
 .weather-card {
-  background-color: #f0f4f8;
+  background-color: #f0f4f83f;
   border-radius: 10px;
   padding: 15px;
   max-width: 300px;
@@ -197,4 +200,16 @@ button:hover {
 
 .weather-info p strong {
   color: #000;
+}
+/* searchbox */
+.search-button{
+    background-color: #295270;
+}
+.search-box input{
+    background-color: #29527067;
+    color:white;
+}
+.hourly-forecast-container{
+    width: 100%;
+    margin-top: 80px;
 }

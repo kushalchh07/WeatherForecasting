@@ -20,9 +20,9 @@ function getWeather() {
             // Construct the HTML to display current weather information
             let weatherInfo = `
             <div class="weather-card">
-    <img src="${data.weather[0].icon}" alt="Weather Icon" class="weather-icon">
+    <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="Weather Icon">
     <div class="weather-info">
-        <p><strong>${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</strong></p>
+        <p><strong>${new Date().toLocaleTimeString()}</strong></p>
         <p><strong>Temperature:</strong> ${data.main.temp} °C</p>
         <p><strong>Feels Like:</strong> ${data.main.feels_like} °C</p>
         <p><strong>Humidity:</strong> ${data.main.humidity} %</p>
@@ -71,7 +71,7 @@ function getHourlyForecast() {
             console.log(data); // Optional: Log the JSON response to see all the details
 
             // Construct HTML to display hourly forecast information for the next 12 hours
-            let forecastInfo = '<h2>Hourly Forecast (Next 12 Hours)</h2>';
+            let forecastInfo = '';
             data.list.slice(0, 12).forEach(item => {
                 const date = new Date(item.dt * 1000).toLocaleString(); // Convert timestamp to local date and time
                 const weather = item.weather[0];
