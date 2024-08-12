@@ -1,5 +1,9 @@
+
+document.addEventListener('DOMContentLoaded', () => {
+    getWeather();
+});
 function getWeather() {
-    const city = document.getElementById('cityInput').value;
+    const city = document.getElementById('cityInput').value ||"Pokhara";
     const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key from OpenWeatherMap
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
@@ -15,27 +19,25 @@ function getWeather() {
 
             // Construct the HTML to display current weather information
             let weatherInfo = `
-                <h2>${data.name}, ${data.sys.country}</h2>
-                <p><strong>Temperature:</strong> ${data.main.temp} °C</p>
-                <p><strong>Feels Like:</strong> ${data.main.feels_like} °C</p>
-                <p><strong>Min Temperature:</strong> ${data.main.temp_min} °C</p>
-                <p><strong>Max Temperature:</strong> ${data.main.temp_max} °C</p>
-                <p><strong>Pressure:</strong> ${data.main.pressure} hPa</p>
-                <p><strong>Humidity:</strong> ${data.main.humidity} %</p>
-                <p><strong>Visibility:</strong> ${data.visibility / 1000} km</p>
-                <p><strong>Wind Speed:</strong> ${data.wind.speed} m/s</p>
-                <p><strong>Wind Direction:</strong> ${data.wind.deg}°</p>
-                <p><strong>Cloudiness:</strong> ${data.clouds.all} %</p>
-                <p><strong>Sunrise:</strong> ${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</p>
-                <p><strong>Sunset:</strong> ${new Date(data.sys.sunset * 1000).toLocaleTimeString()}</p>
-                <p><strong>Weather Description:</strong> ${data.weather[0].description}</p>
-                <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}.png" alt="Weather Icon">
+            <div class="weather-card">
+    <img src="${data.weather[0].icon}" alt="Weather Icon" class="weather-icon">
+    <div class="weather-info">
+        <p><strong>${new Date(data.sys.sunrise * 1000).toLocaleTimeString()}</strong></p>
+        <p><strong>Temperature:</strong> ${data.main.temp} °C</p>
+        <p><strong>Feels Like:</strong> ${data.main.feels_like} °C</p>
+        <p><strong>Humidity:</strong> ${data.main.humidity} %</p>
+        <p><strong>Wind:</strong> ${data.wind.speed} m/s, ${data.wind.deg}°</p>
+        <p><strong>Cloudiness:</strong> ${data.clouds.all} %</p>
+        <p><strong>Weather:</strong> ${data.weather[0].description}</p>
+    </div>
+</div>
+              
             `;
             
             document.getElementById('weatherInfo').innerHTML = weatherInfo;
 
             // Call function to fetch and display hourly forecast
-            getHourlyForecast(city);
+            // getHourlyForecast(city);
         })
         .catch(error => {
             console.error('Error fetching weather data:', error);
@@ -53,7 +55,7 @@ document.getElementById('getForecastButton').addEventListener('click', () => {
 });
 
 function getHourlyForecast() {
-    const city = document.getElementById('cityinput').value;
+    const city = document.getElementById('cityinput').value || 'Pokhara';
 
     const apiKey = '2de9e8ebd605944d35dc6c9793354dce'; // Replace with your actual API key
     const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
@@ -76,22 +78,19 @@ function getHourlyForecast() {
                 const iconUrl = `https://openweathermap.org/img/wn/${weather.icon}.png`;
                 
                 forecastInfo += `
-                    <div class="forecast-item">
-                        <p><strong>Date and Time:</strong> ${date}</p>
-                        <p><strong>Temperature:</strong> ${item.main.temp} °C</p>
-                        <p><strong>Feels Like:</strong> ${item.main.feels_like} °C</p>
-                        <p><strong>Min Temperature:</strong> ${item.main.temp_min} °C</p>
-                        <p><strong>Max Temperature:</strong> ${item.main.temp_max} °C</p>
-                        <p><strong>Pressure:</strong> ${item.main.pressure} hPa</p>
-                        <p><strong>Humidity:</strong> ${item.main.humidity} %</p>
-                        <p><strong>Visibility:</strong> ${item.visibility / 1000} km</p>
-                        <p><strong>Wind Speed:</strong> ${item.wind.speed} m/s</p>
-                        <p><strong>Wind Direction:</strong> ${item.wind.deg}°</p>
-                        <p><strong>Cloudiness:</strong> ${item.clouds.all} %</p>
-                        <p><strong>Rain:</strong> ${item.rain ? item.rain['3h'] : 'N/A'} mm</p>
-                        <p><strong>Weather:</strong> ${weather.description}</p>
-                        <img src="${iconUrl}" alt="Weather Icon">
-                    </div>
+                    <div class="weather-card">
+    <img src="${iconUrl}" alt="Weather Icon" class="weather-icon">
+    <div class="weather-info">
+        <p><strong>${date}</strong></p>
+        <p><strong>Temperature:</strong> ${item.main.temp} °C</p>
+        <p><strong>Feels Like:</strong> ${item.main.feels_like} °C</p>
+        <p><strong>Humidity:</strong> ${item.main.humidity} %</p>
+        <p><strong>Wind:</strong> ${item.wind.speed} m/s, ${item.wind.deg}°</p>
+        <p><strong>Cloudiness:</strong> ${item.clouds.all} %</p>
+        <p><strong>Weather:</strong> ${weather.description}</p>
+    </div>
+</div>
+
                 `;
             });
 

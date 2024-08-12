@@ -1,6 +1,6 @@
 <?php
 // Include the database connection file
-include 'db_connect.php';
+include '../connection/db_connect.php';
 // Check if the form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($email == $email_db && $password == $password_db) {
                 $_SESSION['email'] = $email;
-                header("Location: ../Weather/Pages/homepage.php");
+                header("Location: ../homepage.php");
                 exit();
             } else {
                 echo "Incorrect Password";
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 } else {
     // Redirect back to login page if accessed directly
-    header("Location: login.php");
+    header("Location: ../login.php");
     exit;
 }
-?>
+
